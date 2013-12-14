@@ -20,9 +20,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *mySegmentedControl;
 
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) CardMatchingGame *newGame;
+
+@property (nonatomic) NSUInteger segmentControl;
+
 @end
 
 @implementation CardGameViewController
@@ -62,6 +66,10 @@
 //    _flipCount = flipCount;
 //    self.flipsLabel.text = [NSString stringWithFormat:@"Flips: %d", self.flipCount];
 //}
+
+// Assignment 2
+//start
+
 - (IBAction)resetButton:(id)sender {
 //    for (UIButton *cardButton in self.cardButtons) {
 //        int cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
@@ -76,6 +84,11 @@
     int chosenButtonIndex = [self.cardButtons indexOfObject:sender];
     [self.game resetCards:chosenButtonIndex];
     [self resetUI];
+    
+//    这个方法是不行的，因为这样写的话作用范围只在resetButton函数里，不能作用全局
+//    CardMatchingGame *newGame = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
+//
+//
     [self.newGame resetCards:chosenButtonIndex];
 }
 
@@ -88,8 +101,38 @@
         cardButton.enabled = YES;
         
         self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d",self.game.score];
+        
+        //enable segmented control
+        [self.mySegmentedControl setEnabled:YES];
     }
 }
+
+- (IBAction)segmentedControl:(id)sender {
+    if ([sender isEqual:self.mySegmentedControl]) {
+        NSInteger selectedSegmentIndex = [sender selectedSegmentIndex];
+        
+//        NSString *selectedSegmentText = [sender titleForSegmentAtIndex:selectedSegmentIndex];
+        
+//        NSLog(@"Segment %ld with %@ text", (long)selectedSegmentIndex, selectedSegmentText);
+        
+        if (selectedSegmentIndex) {
+            self.segmentControl = 1;
+//            int chosenButtonIndex = [self.cardButtons indexOfObject:sender];
+//            [self.game chooseCardsAtIndex:chosenButtonIndex];
+//            [self.game resetCards:chosenButtonIndex];
+//            [self resetUI];
+//            [self.newGame resetCards:chosenButtonIndex];
+        }else{
+            self.segmentControl = 0;
+//            NSLog(@"jhjh");
+        }
+    }
+}
+
+
+// end
+
+
 - (IBAction)touchCardButton:(UIButton *)sender {
     
 //    UIImage *cardImage = [UIImage imageNamed:@"cardBack"];
@@ -108,9 +151,16 @@
 //        }
 //        
 //    }
-    int chosenButtonIndex = [self.cardButtons indexOfObject:sender];
-    [self.game chooseCardAtIndex:chosenButtonIndex];
-    [self updateUI];
+    if (self.segmentControl == 1) {
+        int chosenButtonIndex = [self.cardButtons indexOfObject:sender];
+        [self.game chooseCardsAtIndex:chosenButtonIndex];
+        [self updateUI];
+    }else{
+        int chosenButtonIndex = [self.cardButtons indexOfObject:sender];
+        [self.game chooseCardAtIndex:chosenButtonIndex];
+        [self updateUI];
+    }
+    
     
 //    self.flipCount++;
     
@@ -126,18 +176,22 @@
         cardButton.enabled = !card.isMatched;
         
         self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d",self.game.score];
+        
+        //disable segmented control
+        
+        [self.mySegmentedControl setEnabled:NO];
     }
 }
 
 - (NSString *)titleForCard:(Card *)card
 {
-    NSLog(@"%@",card.contents);
+//    NSLog(@"%@",card.contents);
     return card.isChosen ? card.contents : @"";
 }
 
 - (UIImage *)backgroundImageForCard:(Card *)card
 {
-    NSLog(@"cardfront");
+//    NSLog(@"cardfront");
     return [UIImage imageNamed:card.isChosen ? @"cardFront" : @"cardBack"];
 }
 

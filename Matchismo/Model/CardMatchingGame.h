@@ -22,5 +22,6 @@
 
 //reset cards
 - (void)resetCards:(NSUInteger)index;
+- (void)chooseCardsAtIndex:(NSUInteger)index;
 
 @end

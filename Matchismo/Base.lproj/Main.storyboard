@@ -177,10 +177,22 @@
                                     <action selector="resetButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="flH-hV-agP"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cxv-kV-sdc">
+                                <rect key="frame" x="64" y="35" width="193" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="2-card-match"/>
+                                    <segment title="3-card-match"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentedControl:" destination="vXZ-lx-hvc" eventType="valueChanged" id="uAZ-Z3-uio"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.99607849120000003" blue="0.75686281919999998" alpha="1" colorSpace="deviceRGB"/>
                     </view>
                     <connections>
+                        <outlet property="mySegmentedControl" destination="cxv-kV-sdc" id="9yL-hA-jn6"/>
                         <outlet property="scoreLabel" destination="XGX-fP-bzX" id="F3b-Cf-GJo"/>
                         <outletCollection property="cardButtons" destination="uE6-BJ-unf" id="sph-RV-Bk0"/>
                         <outletCollection property="cardButtons" destination="pqy-PH-ano" id="HqB-lz-ldP"/>
