@@ -62,6 +62,8 @@ static const int COST_TO_CHOOSE = 1;
     if (!card.isMatched) {
         if (card.isChosen) {
             card.chosen = NO;
+            self.lastContent = card.contents;
+//            NSLog(@"%@",self.lastContent);
         }else{
             for (Card *otherCard in self.cards) {
                 if (otherCard.isChosen && !otherCard.isMatched) {
@@ -70,7 +72,13 @@ static const int COST_TO_CHOOSE = 1;
                         self.score += matchScore * MATCH_BONUS;
                         otherCard.matched = YES;
                         card.matched = YES;
+                        
+                        self.lastContent = [NSString stringWithFormat:@"Matched %@ %@ for %d points.", card.contents, otherCard.contents, matchScore*MATCH_BONUS];
+//                        NSLog(@"%@", self.lastContent);
                     }else{
+                        
+                        self.lastContent = [NSString stringWithFormat:@"%@%@ don't match! 2 points penalty!", otherCard.contents, card.contents];
+//                        NSLog(@"%@",self.lastContent);
                         self.score -= MISMATCH_PENALTY;
                         otherCard.chosen = NO;
                     }
@@ -89,6 +97,7 @@ static const int COST_TO_CHOOSE = 1;
     if (!card.isMatched) {
         if (card.isChosen) {
             card.chosen = NO;
+            self.lastContent = card.contents;
         }else{
             for (Card *otherCard in self.cards) {
                 if (otherCard.isChosen && !otherCard.isMatched) {
@@ -106,11 +115,13 @@ static const int COST_TO_CHOOSE = 1;
                                 cardsAmount++;
 //                                    NSLog(@"j = %d",cardsAmount);
                                 if (cardsAmount == 3) {
-//                                        self.matchCount = 0;
+                                    //self.matchCount = 0;
                                     self.score += matchScore * MATCH_BONUS * 2;
                                     for (Card *matchCards in self.cards) {
                                         if (matchCards.isChosen && !matchCards.isMatched) {
                                             matchCards.matched = YES;
+                                            self.lastContent = [NSString stringWithFormat:@"%@ %@ Matched for %d points.",card.contents,matchCards.contents, MATCH_BONUS*2*matchScore];
+
                                         }
                                     }
                                     card.matched = YES;
@@ -122,6 +133,7 @@ static const int COST_TO_CHOOSE = 1;
 //                        NSLog(@"i = %d",self.matchCount);
 
                     }else{
+                        self.lastContent = [NSString stringWithFormat:@"%@ %@ don't match.2 points penalty.",otherCard.contents,card.contents];
                         self.score -= MISMATCH_PENALTY;
                         for (Card *otherCards in self.cards) {
                             if (otherCards.isChosen && !otherCards.isMatched) {
@@ -144,21 +156,7 @@ static const int COST_TO_CHOOSE = 1;
 
 //assignment 2
 
-//- (void)chooseTwoCardsAtIndex:(NSUInteger)index
-//{
-//    Card *card = [self cardAtIndex:index];
-//    if (!card.isMatched) {
-//        if (card.isChosen) {
-//            card.chosen = NO;
-//        }else{
-//            for (Card *otherCards in self.cards) {
-//                if (otherCards.isChosen && !otherCards.isMatched) {
-//                    <#statements#>
-//                }
-//            }
-//        }
-//    }
-//}
+
 
 - (void)resetCards:(NSUInteger)index
 {

@@ -24,4 +24,6 @@
 - (void)resetCards:(NSUInteger)index;
 - (void)chooseCardsAtIndex:(NSUInteger)index;
 
+
+@property (nonatomic, strong) NSString *lastContent;
 @end

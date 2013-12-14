@@ -21,6 +21,7 @@
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *mySegmentedControl;
+@property (weak, nonatomic) IBOutlet UILabel *lastResult;
 
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) CardMatchingGame *newGame;
@@ -104,6 +105,8 @@
         
         //enable segmented control
         [self.mySegmentedControl setEnabled:YES];
+        
+        self.lastResult.text = [NSString stringWithFormat:@""];
     }
 }
 
@@ -180,6 +183,9 @@
         //disable segmented control
         
         [self.mySegmentedControl setEnabled:NO];
+        
+        //last result
+        self.lastResult.text = self.game.lastContent;
     }
 }
 
